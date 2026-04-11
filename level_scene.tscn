@@ -6,3 +6,5 @@
 
 [node name="TileMap" type="Node2D" parent="."]
 script = ExtResource("1_4quuv")
+
+[connection signal="execute_step" from="TileMap" to="TileMap" method="_on_execute_step"]

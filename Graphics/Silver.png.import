@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2k27cx24f0j0"
-path="res://.godot/imported/HexPicked.png-72f7f82323bcf859b58a5d35aee69fb2.ctex"
+uid="uid://bk5jf64lhtvr6"
+path="res://.godot/imported/Silver.png-3b6de65c8ac9aede5345a3a06a143056.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Graphics/HexPicked.png"
-dest_files=["res://.godot/imported/HexPicked.png-72f7f82323bcf859b58a5d35aee69fb2.ctex"]
+source_file="res://Graphics/Silver.png"
+dest_files=["res://.godot/imported/Silver.png-3b6de65c8ac9aede5345a3a06a143056.ctex"]
 
 [params]
 
