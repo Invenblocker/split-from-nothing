@@ -10,14 +10,15 @@ var map_height: int = 8
 var start_indented: bool = true
 var indented_rows_shorter: bool = true
 
-var start_x:int = 16
-var start_y:int = 16
+var start_x:int = 120
+var start_y:int = 40
 
 var tile_width:int = 40
 var tile_height:int = 35
 
 var tile_map
-var selected_tile
+var selected_tile: HexTile
+var selected_element: HexTile.elements
 
 func _ready() -> void:
 	tile_map = []
@@ -75,11 +76,43 @@ func _ready() -> void:
 		for b in a:
 			if b!= null:
 				add_child(b)
+	
+	selected_element = HexTile.elements.FIRE
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("Cancel"):
+		if selected_tile != null:
+			selected_tile.selected = false
+			selected_tile = null
 	if Input.is_action_just_pressed("Advance"):
 		step()
+	if Input.is_action_just_pressed("CycleLeft"):
+		selected_element -= 1
+		if selected_element <= 0:
+			selected_element = HexTile.elements.size() - 1
+	if Input.is_action_just_pressed("CycleRight"):
+		selected_element += 1
+		if selected_element >= HexTile.elements.size():
+			selected_element = HexTile.elements.FIRE
 
-func step():
+func step() -> void:
 	calculate_next_state.emit()
 	execute_step.emit()
+	
+func tile_click(tile: HexTile) -> void:
+	if selected_tile == null:
+		selected_tile = tile
+		tile.selected = true
+	else:
+		var opposite:HexTile = null
+		for i:int in range(6):
+			if tile.adjacent_tiles[i] == selected_tile:
+				opposite = tile.adjacent_tiles[i].adjacent_tiles[i]
+				break
+		if (opposite != null) and (tile.element == HexTile.elements.VOID) and (opposite.element == HexTile.elements.VOID):
+			selected_tile.selected = false
+			selected_tile = null
+			tile.antimatter = false
+			tile.element = selected_element
+			opposite.antimatter = true
+			opposite.element = selected_element

@@ -8,13 +8,14 @@ var y: int
 
 var selected: bool = false
 var hovered: bool = false
-var adjacent: bool = false
 
 const TILE_TEXTURE = preload("res://Graphics/HexTile.png")
 const HOVER_TEXTURE = preload("res://Graphics/HexHover.png")
 const SELECTED_TEXTURE = preload("res://Graphics/HexSelected.png")
 const ADJACENT_TEXTURE = preload("res://Graphics/HexAdjacent.png")
+const ADJACENT_HOVER_TEXTURE = preload("res://Graphics/AdjacentHover.png")
 
+const VOID_TEXTURE = preload("res://Graphics/Void.png")
 const FIRE_TEXTURE = preload("res://Graphics/Fire.png")
 const ANTI_FIRE_TEXTURE = preload("res://Graphics/AntiFire.png")
 const WATER_TEXTURE = preload("res://Graphics/Water.png")
@@ -31,6 +32,9 @@ const MERCURY_TEXTURE = preload("res://Graphics/Mercury.png")
 const ANTI_MERCURY_TEXTURE = preload("res://Graphics/AntiMercury.png")
 const LIGHTNING_TEXTURE = preload("res://Graphics/Lightning.png")
 const ANTI_LIGHTNING_TEXTURE = preload("res://Graphics/AntiLightning.png")
+
+const MATTER_TEXTURES = [VOID_TEXTURE, FIRE_TEXTURE, WATER_TEXTURE, EARTH_TEXTURE, AIR_TEXTURE, GOLD_TEXTURE, SILVER_TEXTURE, MERCURY_TEXTURE, LIGHTNING_TEXTURE]
+const ANTIMATTER_TEXTURES = [VOID_TEXTURE, ANTI_FIRE_TEXTURE, ANTI_WATER_TEXTURE, ANTI_EARTH_TEXTURE, ANTI_AIR_TEXTURE, ANTI_GOLD_TEXTURE, ANTI_SILVER_TEXTURE, ANTI_MERCURY_TEXTURE, ANTI_LIGHTNING_TEXTURE]
 
 var up_left_tile:HexTile = null
 var up_right_tile:HexTile = null
@@ -49,57 +53,42 @@ var next_antimatter:bool = false
 
 func _ready() -> void:
 	adjacent_tiles = [right_tile, up_right_tile, up_left_tile, left_tile, down_left_tile, down_right_tile]
-	update_element_graphic()
 	get_parent().calculate_next_state.connect(_calculate_next_state)
 	get_parent().execute_step.connect(_execute_step)
 
-func update_element_graphic():
-	if element == elements.VOID:
-		%ElementGraphic.visible = false
-	else:
-		%ElementGraphic.visible = true
-		if antimatter:
-			if element == elements.FIRE:
-				%ElementGraphic.texture = ANTI_FIRE_TEXTURE
-			elif element == elements.WATER:
-				%ElementGraphic.texture = ANTI_WATER_TEXTURE
-			elif element == elements.EARTH:
-				%ElementGraphic.texture = ANTI_EARTH_TEXTURE
-			elif element == elements.AIR:
-				%ElementGraphic.texture = ANTI_AIR_TEXTURE
-			elif element == elements.GOLD:
-				%ElementGraphic.texture = ANTI_GOLD_TEXTURE
-			elif element == elements.SILVER:
-				%ElementGraphic.texture = ANTI_SILVER_TEXTURE
-			elif element == elements.MERCURY:
-				%ElementGraphic.texture = ANTI_MERCURY_TEXTURE
-			elif element == elements.LIGHTNING:
-				%ElementGraphic.texture = ANTI_LIGHTNING_TEXTURE
-		else:
-			if element == elements.FIRE:
-				%ElementGraphic.texture = FIRE_TEXTURE
-			elif element == elements.WATER:
-				%ElementGraphic.texture = WATER_TEXTURE
-			elif element == elements.EARTH:
-				%ElementGraphic.texture = EARTH_TEXTURE
-			elif element == elements.AIR:
-				%ElementGraphic.texture = AIR_TEXTURE
-			elif element == elements.GOLD:
-				%ElementGraphic.texture = GOLD_TEXTURE
-			elif element == elements.SILVER:
-				%ElementGraphic.texture = SILVER_TEXTURE
-			elif element == elements.MERCURY:
-				%ElementGraphic.texture = MERCURY_TEXTURE
-			elif element == elements.LIGHTNING:
-				%ElementGraphic.texture = LIGHTNING_TEXTURE
-
 func _physics_process(delta: float) -> void:
+	%ElementGraphic.modulate = Color(1, 1, 1, 1)
+	if antimatter:
+		%ElementGraphic.texture = ANTIMATTER_TEXTURES[element]
+	else:
+		%ElementGraphic.texture = MATTER_TEXTURES[element]
+	var adjacent:bool = false
+	var opposite:HexTile = null
+	var neighbor_index:int = 0
+	for neighbor:HexTile in adjacent_tiles:
+		if neighbor == null:
+			neighbor_index += 1
+			continue
+		if neighbor.selected:
+			adjacent = true
+			opposite = neighbor.adjacent_tiles[neighbor_index]
+			break
+		neighbor_index += 1
 	if selected:
 		%TileGraphic.texture = SELECTED_TEXTURE
 	elif hovered:
-		%TileGraphic.texture = HOVER_TEXTURE
+		if adjacent:
+			%TileGraphic.texture = ADJACENT_HOVER_TEXTURE
+			if (opposite != null) and (opposite.element == elements.VOID):
+				%ElementGraphic.texture = MATTER_TEXTURES[get_parent().selected_element]
+				%ElementGraphic.modulate = Color(1,1,1,0.5)
+		else:
+			%TileGraphic.texture = HOVER_TEXTURE
 	elif adjacent:
 		%TileGraphic.texture = ADJACENT_TEXTURE
+		if (opposite != null) and (opposite.hovered) and (opposite.element == elements.VOID):
+			%ElementGraphic.texture = ANTIMATTER_TEXTURES[get_parent().selected_element]
+			%ElementGraphic.modulate = Color(1,1,1,0.5)
 	else:
 		%TileGraphic.texture = TILE_TEXTURE
 
@@ -194,7 +183,6 @@ func _execute_step() -> void:
 	print("Executed step at: {", x, "}, {", y, "}")
 	element = next_element
 	antimatter = next_antimatter
-	update_element_graphic()
 
 func _on_mouse_entered() -> void:
 	hovered = true
@@ -203,16 +191,17 @@ func _on_mouse_exited() -> void:
 	hovered = false
 
 func _on_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
+	#if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+		#print("Clicked tile: {", x, "}, {", y, "}")
+		#if element== elements.VOID:
+			#antimatter = false
+			#element = 1
+		#elif antimatter:
+			#element += 1
+			#antimatter = false
+			#if element >= elements.size():
+				#element = 0
+		#else:
+			#antimatter = true
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
-		print("Clicked tile: {", x, "}, {", y, "}")
-		if element== elements.VOID:
-			antimatter = false
-			element = 1
-		elif antimatter:
-			element += 1
-			antimatter = false
-			if element >= elements.size():
-				element = 0
-		else:
-			antimatter = true
-		update_element_graphic()
+		get_parent().tile_click(self)
