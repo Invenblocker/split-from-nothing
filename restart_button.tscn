@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4asri7m2yq8b"]
+
+[ext_resource type="Texture2D" uid="uid://bl50qerrh7t82" path="res://Graphics/RestartButton.png" id="1_fmbf5"]
+[ext_resource type="Script" uid="uid://dedsoyq2tlh5m" path="res://restart_button.gd" id="1_vpy71"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vpy71"]
+size = Vector2(48, 48)
+
+[node name="RestartButton" type="Area2D"]
+script = ExtResource("1_vpy71")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(24, 24)
+texture = ExtResource("1_fmbf5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(24, 24)
+shape = SubResource("RectangleShape2D_vpy71")
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

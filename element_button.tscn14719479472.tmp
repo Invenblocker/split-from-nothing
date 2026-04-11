@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://rra3347xll4c"]
+
+[ext_resource type="Texture2D" uid="uid://5o3yg8chp0eu" path="res://Graphics/ElementButton.png" id="1_6e7hx"]
+[ext_resource type="Script" uid="uid://2dat6awuqpcm" path="res://element_button.gd" id="1_fq3xb"]
+[ext_resource type="Texture2D" uid="uid://dbukp00valexr" path="res://Graphics/Fire.png" id="2_fq3xb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mwy3p"]
+size = Vector2(120, 48)
+
+[node name="ElementButton" type="Area2D"]
+script = ExtResource("1_fq3xb")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mwy3p")
+
+[node name="Button" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("1_6e7hx")
+
+[node name="ElementDisplay" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-36, 0)
+texture = ExtResource("2_fq3xb")
+
+[node name="ElementCount" type="Label" parent="."]
+unique_name_in_owner = true
+offset_left = -12.0
+offset_top = -18.0
+offset_right = 52.0
+offset_bottom = 18.0
+theme_override_font_sizes/font_size = 24
+text = "X 1"
+vertical_alignment = 1

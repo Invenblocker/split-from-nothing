@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://3q8ke3ruvm7i"]
+
+[ext_resource type="Script" uid="uid://c1aytox6qwdga" path="res://Levels/level_1.gd" id="1_dilhk"]
+[ext_resource type="PackedScene" uid="uid://c5sa6rmj53x7v" path="res://level_scene.tscn" id="1_n0qsc"]
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("1_dilhk")
+
+[node name="LevelScene" parent="." instance=ExtResource("1_n0qsc")]
+unique_name_in_owner = true
+left = 2
+top = 2
+resources = Dictionary[int, int]({
+1: 4,
+2: 0,
+3: 0,
+4: 0,
+5: 0,
+6: 0,
+7: 0,
+8: 0
+})
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 410.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "If matter and anti-matter
+makes nothing, it follows I
+can split nothing into matter
+and anti-matter.
+Of course, if matter and anti-
+matter touches, it returns
+back to nothing.
+I have enough catalysts to
+split fire four times. I want to
+keep at least two fire while
+not maintaining any anti-fire.
+
+GOAL: have 2 or more FIRE
+and 0 ANTI-FIRE in play."
+
+[node name="Label2" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 5.0
+offset_top = 330.0
+offset_right = 405.0
+offset_bottom = 380.0
+text = "HINT: one piece of anti-matter can disappear with
+multiple pieces of matter, and vice versa."
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true
+
+[connection signal="load_starting_state" from="LevelScene" to="LevelScene" method="_on_load_starting_state"]
+[connection signal="post_step" from="LevelScene" to="." method="_on_level_scene_post_step"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

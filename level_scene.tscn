@@ -1,10 +1,78 @@
-[gd_scene load_steps=2 format=3 uid="uid://c5sa6rmj53x7v"]
+[gd_scene load_steps=6 format=3 uid="uid://c5sa6rmj53x7v"]
 
+[ext_resource type="Script" uid="uid://bfkynicxjtwep" path="res://level_scene.gd" id="1_3mivm"]
 [ext_resource type="Script" uid="uid://ld7i1l3gxll4" path="res://tile_map.gd" id="1_4quuv"]
+[ext_resource type="PackedScene" uid="uid://rra3347xll4c" path="res://element_button.tscn" id="2_187gu"]
+[ext_resource type="PackedScene" uid="uid://d4asri7m2yq8b" path="res://restart_button.tscn" id="4_lwxgr"]
+[ext_resource type="PackedScene" uid="uid://b6r526dv6l3j2" path="res://advance_button.tscn" id="5_8wodn"]
 
 [node name="LevelScene" type="Node2D"]
+script = ExtResource("1_3mivm")
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+layer = -5
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer2"]
+show_behind_parent = true
+z_index = -10
+z_as_relative = false
+offset_right = 640.0
+offset_bottom = 480.0
+mouse_filter = 2
+color = Color(0.078431375, 0.15686275, 0.13725491, 1)
 
 [node name="TileMap" type="Node2D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("1_4quuv")
 
-[connection signal="execute_step" from="TileMap" to="TileMap" method="_on_execute_step"]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="FireButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
+unique_name_in_owner = true
+position = Vector2(6, 380)
+
+[node name="WaterButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
+unique_name_in_owner = true
+position = Vector2(132, 380)
+element = 2
+
+[node name="EarthButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
+unique_name_in_owner = true
+position = Vector2(258, 380)
+element = 3
+
+[node name="AirButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
+unique_name_in_owner = true
+position = Vector2(384, 380)
+element = 4
+
+[node name="GoldButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
+unique_name_in_owner = true
+position = Vector2(510, 380)
+element = 5
+
+[node name="SilverButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
+unique_name_in_owner = true
+position = Vector2(6, 430)
+element = 6
+
+[node name="MercuryButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
+unique_name_in_owner = true
+position = Vector2(132, 430)
+element = 7
+
+[node name="LightningButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
+unique_name_in_owner = true
+position = Vector2(258, 430)
+count = 1
+
+[node name="RestartButton" parent="CanvasLayer" instance=ExtResource("4_lwxgr")]
+position = Vector2(384, 430)
+
+[node name="AdvanceButton" parent="CanvasLayer" instance=ExtResource("5_8wodn")]
+position = Vector2(438, 430)
+
+[connection signal="save_starting_state" from="." to="." method="_on_save_starting_state"]
+[connection signal="post_step" from="TileMap" to="." method="_on_tile_map_post_step"]
+[connection signal="restart_button" from="CanvasLayer/RestartButton" to="." method="_on_restart_button_restart_button"]
+[connection signal="advance_button" from="CanvasLayer/AdvanceButton" to="." method="_on_advance_button_advance_button"]

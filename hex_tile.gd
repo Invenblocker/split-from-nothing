@@ -51,10 +51,15 @@ var antimatter:bool = false
 var next_element:elements = elements.VOID
 var next_antimatter:bool = false
 
+var starting_element:elements = elements.VOID
+var starting_antimatter:bool = false
+
 func _ready() -> void:
 	adjacent_tiles = [right_tile, up_right_tile, up_left_tile, left_tile, down_left_tile, down_right_tile]
 	get_parent().calculate_next_state.connect(_calculate_next_state)
 	get_parent().execute_step.connect(_execute_step)
+	get_parent().get_parent().save_starting_state.connect(_save_starting_state)
+	get_parent().get_parent().load_starting_state.connect(_load_starting_state)
 
 func _physics_process(delta: float) -> void:
 	%ElementGraphic.modulate = Color(1, 1, 1, 1)
@@ -93,7 +98,7 @@ func _physics_process(delta: float) -> void:
 		%TileGraphic.texture = TILE_TEXTURE
 
 func _calculate_next_state() -> void:
-	print("Calculated step at: {", x, "}, {", y, "}")
+	#print("Calculated step at: {", x, "}, {", y, "}")
 	next_element = element
 	next_antimatter = antimatter
 	if element != elements.VOID: #Empty through matter/anti-matter, silver or mercury, all of which take priority
@@ -142,10 +147,35 @@ func _calculate_next_state() -> void:
 		if water_neighbors > earth_neighbors:
 			next_element = elements.WATER
 	elif element == elements.AIR:
+		var fire_neighbors:int = 0
+		var lightning_neighbors:int = 0
 		for neighbor:HexTile in adjacent_tiles:
 			if neighbor == null: continue
 			if (neighbor.element == elements.FIRE) and (neighbor.antimatter == antimatter):
-				next_element = elements.FIRE
+				fire_neighbors += 1
+			elif (neighbor.element == elements.LIGHTNING) and (neighbor.antimatter != antimatter):
+				lightning_neighbors += 1
+		if (fire_neighbors > 0) and (fire_neighbors >= lightning_neighbors):
+			next_element = elements.FIRE
+		elif lightning_neighbors > 0:
+			next_element = elements.LIGHTNING
+			next_antimatter = !antimatter
+	elif element == elements.LIGHTNING:
+		var earth_neighbors:int = 0
+		var lightning_neigbors: int = 0
+		var air_neighbors: int = 0
+		for neighbor:HexTile in adjacent_tiles:
+			if neighbor == null: continue
+			if (neighbor.element == elements.LIGHTNING) and (neighbor.antimatter == antimatter):
+				lightning_neigbors += 1
+			elif (neighbor.element == elements.AIR) and (neighbor.antimatter == antimatter):
+				air_neighbors += 1
+			elif (neighbor.element == elements.EARTH):
+				earth_neighbors += 1
+		if earth_neighbors >= air_neighbors:
+			next_element = elements.VOID
+		elif air_neighbors > lightning_neigbors:
+			next_element = elements.AIR
 	
 	elif element == elements.VOID:
 		var earth_neighbors:int = 0
@@ -178,11 +208,22 @@ func _calculate_next_state() -> void:
 		elif (anti_air_neighbors >= 1) and (air_neighbors == 0):
 			next_element = elements.AIR
 			next_antimatter = true
+		elif air_neighbors != anti_air_neighbors:
+			next_element = elements.LIGHTNING
+			next_antimatter = air_neighbors < anti_air_neighbors
 
 func _execute_step() -> void:
-	print("Executed step at: {", x, "}, {", y, "}")
+	#print("Executed step at: {", x, "}, {", y, "}")
 	element = next_element
 	antimatter = next_antimatter
+
+func _save_starting_state():
+	starting_element = element
+	starting_antimatter = antimatter
+
+func _load_starting_state():
+	element = starting_element
+	antimatter = starting_antimatter
 
 func _on_mouse_entered() -> void:
 	hovered = true

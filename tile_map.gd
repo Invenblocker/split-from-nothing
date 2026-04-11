@@ -1,10 +1,14 @@
+class_name TilesMap
+
 extends Node2D
 
 signal calculate_next_state
 signal execute_step
+signal post_step
 
 const HEX_TILE = preload("res://hex_tile.tscn")
 
+var level:LevelScene = null
 var map_width: int = 10
 var map_height: int = 8
 var start_indented: bool = true
@@ -18,9 +22,19 @@ var tile_height:int = 35
 
 var tile_map
 var selected_tile: HexTile
-var selected_element: HexTile.elements
+var selected_element:HexTile.elements = HexTile.elements.VOID
 
 func _ready() -> void:
+	var parent = get_parent()
+	if (parent!= null) and (parent is LevelScene):
+		level = parent
+		map_width = level.map_width
+		map_height = level.map_height
+		start_indented = level.start_indented
+		indented_rows_shorter = level.indented_rows_shorter
+		start_x = level.left
+		start_y = level.top
+	
 	tile_map = []
 	for a:int in range(map_width):
 		var tile_column = []
@@ -76,8 +90,6 @@ func _ready() -> void:
 		for b in a:
 			if b!= null:
 				add_child(b)
-	
-	selected_element = HexTile.elements.FIRE
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("Cancel"):
@@ -86,33 +98,35 @@ func _physics_process(delta: float) -> void:
 			selected_tile = null
 	if Input.is_action_just_pressed("Advance"):
 		step()
-	if Input.is_action_just_pressed("CycleLeft"):
-		selected_element -= 1
-		if selected_element <= 0:
-			selected_element = HexTile.elements.size() - 1
-	if Input.is_action_just_pressed("CycleRight"):
-		selected_element += 1
-		if selected_element >= HexTile.elements.size():
-			selected_element = HexTile.elements.FIRE
 
 func step() -> void:
 	calculate_next_state.emit()
 	execute_step.emit()
+	post_step.emit()
 	
 func tile_click(tile: HexTile) -> void:
-	if selected_tile == null:
-		selected_tile = tile
-		tile.selected = true
-	else:
-		var opposite:HexTile = null
-		for i:int in range(6):
-			if tile.adjacent_tiles[i] == selected_tile:
-				opposite = tile.adjacent_tiles[i].adjacent_tiles[i]
-				break
-		if (opposite != null) and (tile.element == HexTile.elements.VOID) and (opposite.element == HexTile.elements.VOID):
-			selected_tile.selected = false
-			selected_tile = null
-			tile.antimatter = false
-			tile.element = selected_element
-			opposite.antimatter = true
-			opposite.element = selected_element
+	if selected_element != HexTile.elements.VOID:
+		if (selected_tile == null):
+			if tile.element == HexTile.elements.VOID:
+				selected_tile = tile
+				tile.selected = true
+		else:
+			var opposite:HexTile = null
+			var adjacent: bool = false
+			for i:int in range(6):
+				if tile.adjacent_tiles[i] == selected_tile:
+					opposite = tile.adjacent_tiles[i].adjacent_tiles[i]
+					adjacent = true
+					break
+			if not adjacent:
+				selected_tile.selected = false
+				selected_tile = null
+			elif (opposite != null) and (tile.element == HexTile.elements.VOID) and (opposite.element == HexTile.elements.VOID):
+				selected_tile.selected = false
+				selected_tile = null
+				tile.antimatter = false
+				tile.element = selected_element
+				opposite.antimatter = true
+				opposite.element = selected_element
+				if get_parent().has_method("used_element"):
+					get_parent().used_element(selected_element)
