@@ -1,5 +1,7 @@
 extends Node2D
 
+signal level_finished
+
 func _ready() -> void:
 	var tiles = %LevelScene.get_tile_map()
 	%LevelScene.add_element(1, 2, HexTile.elements.GOLD, false)
@@ -45,6 +47,7 @@ func _on_level_scene_post_step() -> void:
 	if (air_count >= 5) and (anti_air_count <= 0):
 		%ObjectiveLabel.visible = false
 		%CompleteLabel.visible = true
+		level_finished.emit()
 		
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):

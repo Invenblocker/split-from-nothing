@@ -24,6 +24,8 @@ var tile_map
 var selected_tile: HexTile
 var selected_element:HexTile.elements = HexTile.elements.VOID
 
+var level_finished = false
+
 func _ready() -> void:
 	var parent = get_parent()
 	if (parent!= null) and (parent is LevelScene):
@@ -100,6 +102,9 @@ func _physics_process(delta: float) -> void:
 		step()
 
 func step() -> void:
+	if level_finished:
+		return
+	
 	if selected_tile != null:
 		selected_tile.selected = false
 		selected_tile = null

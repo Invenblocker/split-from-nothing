@@ -193,7 +193,7 @@ func _calculate_next_state() -> void:
 		if (earth_neighbors >= 3) and (anti_earth_neighbors == 0):
 			next_element = elements.EARTH
 			next_antimatter = false
-		elif (anti_earth_neighbors >= 2) and (earth_neighbors == 0):
+		elif (anti_earth_neighbors >= 3) and (earth_neighbors == 0):
 			next_element = elements.EARTH
 			next_antimatter = true
 		elif (air_neighbors >= 1) and (anti_air_neighbors == 0):

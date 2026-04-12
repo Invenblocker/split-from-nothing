@@ -16,10 +16,10 @@ resources = Dictionary[int, int]({
 1: 0,
 2: 0,
 3: 0,
-4: 2,
+4: 0,
 5: 0,
-6: 0,
-7: 0,
+6: 5,
+7: 5,
 8: 0
 })
 
@@ -40,7 +40,9 @@ anti-matter and mercury matter.
 
 Of course, the inverse holds for their
 anti-matter counterparts, but that
-should go without saying"
+should go without saying
+
+GOAL: Empty out the grid"
 metadata/_edit_use_anchors_ = true
 
 [node name="CompleteLabel" type="Label" parent="CanvasLayer"]
@@ -49,10 +51,12 @@ visible = false
 offset_left = 340.0
 offset_right = 640.0
 offset_bottom = 380.0
-text = "The Anti-air has been dissipated.
-Lightning is volatile if not sustained
-by air, but it is highly useful for
-matters such as this."
+text = "There we go, a pristine workplace if I
+have ever seen one.
+
+The perfect blank canvas for further
+experimentation."
 metadata/_edit_use_anchors_ = true
 
+[connection signal="level_finished" from="." to="LevelScene" method="level_end"]
 [connection signal="post_step" from="LevelScene" to="." method="_on_level_scene_post_step"]

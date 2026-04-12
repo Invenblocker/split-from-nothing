@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://c5sa6rmj53x7v"]
+[gd_scene load_steps=7 format=3 uid="uid://c5sa6rmj53x7v"]
 
 [ext_resource type="Script" uid="uid://bfkynicxjtwep" path="res://level_scene.gd" id="1_3mivm"]
 [ext_resource type="Script" uid="uid://ld7i1l3gxll4" path="res://tile_map.gd" id="1_4quuv"]
 [ext_resource type="PackedScene" uid="uid://rra3347xll4c" path="res://element_button.tscn" id="2_187gu"]
 [ext_resource type="PackedScene" uid="uid://d4asri7m2yq8b" path="res://restart_button.tscn" id="4_lwxgr"]
 [ext_resource type="PackedScene" uid="uid://b6r526dv6l3j2" path="res://advance_button.tscn" id="5_8wodn"]
+[ext_resource type="PackedScene" uid="uid://npbk2iiiy47i" path="res://back_to_levels.tscn" id="6_j2453"]
 
 [node name="LevelScene" type="Node2D"]
 script = ExtResource("1_3mivm")
@@ -68,10 +69,17 @@ element = 8
 count = 1
 
 [node name="RestartButton" parent="CanvasLayer" instance=ExtResource("4_lwxgr")]
+unique_name_in_owner = true
 position = Vector2(384, 430)
 
 [node name="AdvanceButton" parent="CanvasLayer" instance=ExtResource("5_8wodn")]
+unique_name_in_owner = true
 position = Vector2(438, 430)
+
+[node name="BackToLevels" parent="CanvasLayer" instance=ExtResource("6_j2453")]
+unique_name_in_owner = true
+visible = false
+position = Vector2(384, 430)
 
 [connection signal="load_starting_state" from="." to="." method="_on_load_starting_state"]
 [connection signal="save_starting_state" from="." to="." method="_on_save_starting_state"]

@@ -54,7 +54,7 @@ func _physics_process(delta: float) -> void:
 		cycle_element(-1)
 	if Input.is_action_just_pressed("CycleRight"):
 		cycle_element(1)
-	if Input.is_action_just_pressed("Restart") and starting_state_saved:
+	if Input.is_action_just_pressed("Restart") and starting_state_saved and !%TileMap.level_finished:
 		load_starting_state.emit()
 
 func cycle_element(dir:int):
@@ -130,3 +130,9 @@ func sandbox_add(antimatter: bool = false):
 		%TileMap.selected_tile.antimatter = antimatter
 		%TileMap.selected_tile.selected = false
 		%TileMap.selected_tile = null
+		
+func level_end() -> void:
+	%RestartButton.visible = false
+	%AdvanceButton.visible = false
+	%BackToLevels.visible = true
+	%TileMap.level_finished = true

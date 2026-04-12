@@ -55,9 +55,17 @@ offset_right = 64.0
 offset_bottom = 207.0
 text = "Level 5"
 
+[node name="Level6Button" type="Button" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 208.0
+offset_right = 64.0
+offset_bottom = 239.0
+text = "Level 6"
+
 [connection signal="button_down" from="CanvasLayer/BackButton" to="." method="_on_back_button_button_down"]
 [connection signal="button_down" from="CanvasLayer/Level1Button" to="." method="level_button" binds= [1]]
 [connection signal="button_down" from="CanvasLayer/Level2Button" to="." method="level_button" binds= [2]]
 [connection signal="button_down" from="CanvasLayer/Level3Button" to="." method="level_button" binds= [3]]
 [connection signal="button_down" from="CanvasLayer/Level4Button" to="." method="level_button" binds= [4]]
 [connection signal="button_down" from="CanvasLayer/Level5Button" to="." method="level_button" binds= [5]]
+[connection signal="button_down" from="CanvasLayer/Level6Button" to="." method="level_button" binds= [6]]

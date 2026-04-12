@@ -1,5 +1,7 @@
 extends Node2D
 
+signal level_finished
+
 func _ready() -> void:
 	%LevelScene.save_starting_state.emit()
 
@@ -24,6 +26,7 @@ func _on_level_scene_post_step() -> void:
 	if (fire_count >= 2) and (anti_fire_count <= 0):
 		%ObjectiveLabel.visible = false
 		%CompleteLabel.visible = true
+		level_finished.emit()
 		
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("ui_cancel"):
