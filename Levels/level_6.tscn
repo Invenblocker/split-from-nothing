@@ -1,0 +1,58 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctda2xwvuipej"]
+
+[ext_resource type="Script" uid="uid://bnul1bo1dgyof" path="res://Levels/level_6.gd" id="1_eoqu3"]
+[ext_resource type="PackedScene" uid="uid://c5sa6rmj53x7v" path="res://level_scene.tscn" id="1_r2npx"]
+
+[node name="Level6" type="Node2D"]
+script = ExtResource("1_eoqu3")
+
+[node name="LevelScene" parent="." instance=ExtResource("1_r2npx")]
+unique_name_in_owner = true
+map_width = 8
+map_height = 9
+left = 10
+top = 10
+resources = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 0,
+4: 2,
+5: 0,
+6: 0,
+7: 0,
+8: 0
+})
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ObjectiveLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 340.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "Spring cleaning time. I have a bunch of
+earth lying around that I would rather
+be rid of.
+
+I have some silver and mercury
+catalysts for the task. Silver removes
+anti-matter and mercury matter.
+
+Of course, the inverse holds for their
+anti-matter counterparts, but that
+should go without saying"
+metadata/_edit_use_anchors_ = true
+
+[node name="CompleteLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 340.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "The Anti-air has been dissipated.
+Lightning is volatile if not sustained
+by air, but it is highly useful for
+matters such as this."
+metadata/_edit_use_anchors_ = true
+
+[connection signal="post_step" from="LevelScene" to="." method="_on_level_scene_post_step"]

@@ -1,0 +1,83 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx2wt5quhl4xx"]
+
+[ext_resource type="Script" uid="uid://kvd04qhuosh5" path="res://Levels/level_4.gd" id="1_e78ah"]
+[ext_resource type="PackedScene" uid="uid://c5sa6rmj53x7v" path="res://level_scene.tscn" id="2_nsqb1"]
+
+[node name="Level4" type="Node2D"]
+script = ExtResource("1_e78ah")
+
+[node name="LevelScene" parent="." instance=ExtResource("2_nsqb1")]
+unique_name_in_owner = true
+map_width = 12
+start_indented = false
+indented_rows_shorter = false
+left = 0
+top = 0
+resources = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 0,
+4: 5,
+5: 0,
+6: 0,
+7: 0,
+8: 0
+})
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ObjectiveLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = -1
+anchor_left = 0.228125
+anchor_right = 0.228125
+offset_left = 354.0
+offset_right = 494.0
+offset_bottom = 380.0
+text = "I should not have
+left the anti-fire
+alone! This is bad.
+
+Just used up all
+my water, and
+have no catalysts
+on hand. I'll have
+to use these air
+catalysts instead.
+
+GOAL: Remove all
+FIRE elements."
+metadata/_edit_use_anchors_ = true
+
+[node name="CompleteLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 500.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "Phew, situation
+is now contained.
+
+I will have to be
+more careful in
+the future."
+metadata/_edit_use_anchors_ = true
+
+[node name="HintLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 5.0
+offset_top = 327.0
+offset_right = 474.0
+offset_bottom = 376.0
+text = "Hint, Fire spreads through air, while anti-air spreads through
+fire. Both interactions are reversed for anti-fire."
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true
+
+[connection signal="post_step" from="LevelScene" to="." method="_on_level_scene_post_step"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

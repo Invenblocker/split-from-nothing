@@ -100,6 +100,9 @@ func _physics_process(delta: float) -> void:
 		step()
 
 func step() -> void:
+	if selected_tile != null:
+		selected_tile.selected = false
+		selected_tile = null
 	calculate_next_state.emit()
 	execute_step.emit()
 	post_step.emit()

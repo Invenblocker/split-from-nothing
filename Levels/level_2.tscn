@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3 uid="uid://dkbfecu3w7bex"]
+
+[ext_resource type="Script" uid="uid://niccqjxlpl82" path="res://Levels/level_2.gd" id="1_kbe2v"]
+[ext_resource type="PackedScene" uid="uid://c5sa6rmj53x7v" path="res://level_scene.tscn" id="2_arsda"]
+
+[node name="Level2" type="Node2D"]
+script = ExtResource("1_kbe2v")
+
+[node name="LevelScene" parent="." instance=ExtResource("2_arsda")]
+unique_name_in_owner = true
+map_width = 8
+map_height = 7
+left = 20
+top = 20
+resources = Dictionary[int, int]({
+1: 5,
+2: 0,
+3: 0,
+4: 0,
+5: 0,
+6: 0,
+7: 0,
+8: 0
+})
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ObjectiveLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 360.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "I have a source of fire, but it seems
+my lab for water catalysts has been
+flooded.
+
+This is quite unfortunate as all I
+have on hand is fire catalysts.
+Unless... I think that where there is
+a will, there must at least be some
+sort of way. I just have to find it.
+
+GOAL: Remove all WATER elements
+from the lab
+"
+metadata/_edit_use_anchors_ = true
+
+[node name="CompleteLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 360.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "Alright, water spill cleared.
+And putting out the anti-fires
+should hopefully not pose too
+much of an issue, but I'll worry
+about that part later.
+
+For now, my lab is cleared well
+enough for me to start producing
+my water catalysts again."
+metadata/_edit_use_anchors_ = true
+
+[node name="HintLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 5.0
+offset_top = 351.0
+offset_right = 474.0
+offset_bottom = 380.0
+text = "HINT: Water puts out fire, but how does it react with anti-fire"
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true
+
+[connection signal="post_step" from="LevelScene" to="." method="_on_level_scene_post_step"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -23,7 +23,8 @@ resources = Dictionary[int, int]({
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="CanvasLayer"]
+[node name="ObjectiveLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
 offset_left = 410.0
 offset_right = 640.0
 offset_bottom = 380.0
@@ -42,7 +43,26 @@ not maintaining any anti-fire.
 GOAL: have 2 or more FIRE
 and 0 ANTI-FIRE in play."
 
-[node name="Label2" type="Label" parent="CanvasLayer"]
+[node name="CompleteLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 410.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "Success! A nice fire is going,
+and residual anti-fire has
+been dealt with.
+
+With these flames, I should
+be able to fire up the kiln and
+start producing more
+catalysts for my remaining
+experiments.
+
+Press the ESC key to go back
+to level select."
+
+[node name="HintLabel" type="Label" parent="CanvasLayer"]
 unique_name_in_owner = true
 visible = false
 offset_left = 5.0

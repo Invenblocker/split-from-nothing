@@ -123,28 +123,22 @@ func _calculate_next_state() -> void:
 				next_antimatter = neighbor.antimatter
 	elif element == elements.WATER:
 		var anti_earth_neighbors:int = 0
-		var water_neighbors:int = 0
 		for neighbor:HexTile in adjacent_tiles:
 			if neighbor == null: continue
 			if (neighbor.element == elements.FIRE) and (neighbor.antimatter != antimatter):
 				next_element = elements.VOID
 			elif (neighbor.element == elements.EARTH) and (neighbor.antimatter != antimatter):
 				anti_earth_neighbors += 1
-			elif neighbor.element == elements.WATER:
-				water_neighbors += 1
-		if (next_element == elements.WATER) and (anti_earth_neighbors > water_neighbors):
+		if (next_element == elements.WATER) and (anti_earth_neighbors >= 2):
 			next_element = elements.EARTH
 			next_antimatter = !antimatter
 	elif element == elements.EARTH:
-		var earth_neighbors:int = 0
 		var water_neighbors: int = 0
 		for neighbor:HexTile in adjacent_tiles:
 			if neighbor == null: continue
 			if (neighbor.element == elements.WATER) and (neighbor.antimatter == antimatter):
 				water_neighbors += 1
-			elif (neighbor.element == elements.EARTH):
-				earth_neighbors += 1
-		if water_neighbors > earth_neighbors:
+		if water_neighbors >= 2:
 			next_element = elements.WATER
 	elif element == elements.AIR:
 		var fire_neighbors:int = 0

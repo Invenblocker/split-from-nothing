@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2r3lj47q10d3"]
+
+[ext_resource type="Script" uid="uid://cdhoqxy7wsdwg" path="res://level_select.gd" id="1_il3u1"]
+
+[node name="LevelSelect" type="Node2D"]
+script = ExtResource("1_il3u1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0.13725491, 0.12156863, 0.07058824, 1)
+
+[node name="BackButton" type="Button" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 72.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 24
+text = "BACK"
+
+[node name="Level1Button" type="Button" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 48.0
+offset_right = 64.0
+offset_bottom = 79.0
+text = "Level 1"
+
+[node name="Level2Button" type="Button" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 80.0
+offset_right = 64.0
+offset_bottom = 111.0
+text = "Level 2"
+
+[node name="Level3Button" type="Button" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 112.0
+offset_right = 64.0
+offset_bottom = 143.0
+text = "Level 3"
+
+[node name="Level4Button" type="Button" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 144.0
+offset_right = 64.0
+offset_bottom = 175.0
+text = "Level 4"
+
+[node name="Level5Button" type="Button" parent="CanvasLayer"]
+offset_left = 2.0
+offset_top = 176.0
+offset_right = 64.0
+offset_bottom = 207.0
+text = "Level 5"
+
+[connection signal="button_down" from="CanvasLayer/BackButton" to="." method="_on_back_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/Level1Button" to="." method="level_button" binds= [1]]
+[connection signal="button_down" from="CanvasLayer/Level2Button" to="." method="level_button" binds= [2]]
+[connection signal="button_down" from="CanvasLayer/Level3Button" to="." method="level_button" binds= [3]]
+[connection signal="button_down" from="CanvasLayer/Level4Button" to="." method="level_button" binds= [4]]
+[connection signal="button_down" from="CanvasLayer/Level5Button" to="." method="level_button" binds= [5]]

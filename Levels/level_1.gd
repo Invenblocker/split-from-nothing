@@ -5,7 +5,7 @@ func _ready() -> void:
 
 
 func _on_timer_timeout() -> void:
-	%Label2.visible = true
+	%HintLabel.visible = true
 
 
 func _on_level_scene_post_step() -> void:
@@ -22,4 +22,9 @@ func _on_level_scene_post_step() -> void:
 						fire_count += 1
 	
 	if (fire_count >= 2) and (anti_fire_count <= 0):
-		print("Success")
+		%ObjectiveLabel.visible = false
+		%CompleteLabel.visible = true
+		
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("ui_cancel"):
+		get_tree().change_scene_to_file("res://level_select.tscn")

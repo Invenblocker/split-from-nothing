@@ -64,6 +64,7 @@ element = 7
 [node name="LightningButton" parent="CanvasLayer" instance=ExtResource("2_187gu")]
 unique_name_in_owner = true
 position = Vector2(258, 430)
+element = 8
 count = 1
 
 [node name="RestartButton" parent="CanvasLayer" instance=ExtResource("4_lwxgr")]
@@ -72,6 +73,7 @@ position = Vector2(384, 430)
 [node name="AdvanceButton" parent="CanvasLayer" instance=ExtResource("5_8wodn")]
 position = Vector2(438, 430)
 
+[connection signal="load_starting_state" from="." to="." method="_on_load_starting_state"]
 [connection signal="save_starting_state" from="." to="." method="_on_save_starting_state"]
 [connection signal="post_step" from="TileMap" to="." method="_on_tile_map_post_step"]
 [connection signal="restart_button" from="CanvasLayer/RestartButton" to="." method="_on_restart_button_restart_button"]

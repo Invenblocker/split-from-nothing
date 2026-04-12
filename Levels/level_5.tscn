@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://cyvyv2e8u77as"]
+
+[ext_resource type="PackedScene" uid="uid://c5sa6rmj53x7v" path="res://level_scene.tscn" id="1_a6k8o"]
+[ext_resource type="Script" uid="uid://djnf7fwtpwx4q" path="res://Levels/level_5.gd" id="1_ftuqy"]
+
+[node name="Level5" type="Node2D"]
+script = ExtResource("1_ftuqy")
+
+[node name="LevelScene" parent="." instance=ExtResource("1_a6k8o")]
+unique_name_in_owner = true
+map_width = 8
+map_height = 7
+start_indented = false
+left = 10
+top = 10
+resources = Dictionary[int, int]({
+1: 0,
+2: 0,
+3: 0,
+4: 2,
+5: 0,
+6: 0,
+7: 0,
+8: 0
+})
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ObjectiveLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 340.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "When putting out the anti-fire, I seem
+to have sparked lightning.
+
+Lightning can dissipate anti-air, which
+is toxic to us humans, so I best put it
+to use for this very purpose.
+
+GOAL: Remove all ANTI-AIR and have
+at least 5 AIR."
+metadata/_edit_use_anchors_ = true
+
+[node name="CompleteLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 340.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "The Anti-air has been dissipated.
+Lightning is volatile if not sustained
+by air, but it is highly useful for
+matters such as this."
+metadata/_edit_use_anchors_ = true
+
+[node name="HintLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 5.0
+offset_top = 327.0
+offset_right = 474.0
+offset_bottom = 376.0
+text = "Lightning and anti-lightning are created from imbalanced environments of air
+and anti-air. Whichever amount there's more of determines which you get."
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true
+
+[connection signal="post_step" from="LevelScene" to="." method="_on_level_scene_post_step"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

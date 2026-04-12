@@ -100,7 +100,9 @@ func _on_save_starting_state() -> void:
 
 func _on_load_starting_state() -> void:
 	for element in buttons.keys():
+		print(resources[element])
 		buttons[element].count = resources[element]
+	cycle_element(0)
 
 
 func _on_restart_button_restart_button() -> void:
@@ -108,9 +110,7 @@ func _on_restart_button_restart_button() -> void:
 		load_starting_state.emit()
 
 func _on_advance_button_advance_button() -> void:
-	%TileMap.calculate_next_state.emit()
-	%TileMap.execute_step.emit()
-	%TileMap.post_step.emit()
+	%TileMap.step()
 
 
 func _on_tile_map_post_step() -> void:
@@ -118,3 +118,15 @@ func _on_tile_map_post_step() -> void:
 
 func get_tile_map():
 	return %TileMap.tile_map
+
+func add_element(x: int, y: int, element:HexTile.elements, antimatter: bool = false):
+	var tiles = %TileMap.tile_map
+	tiles[x][y].element = element
+	tiles[x][y].antimatter = antimatter
+
+func sandbox_add(antimatter: bool = false):
+	if %TileMap.selected_tile != null:
+		%TileMap.selected_tile.element = selected_element
+		%TileMap.selected_tile.antimatter = antimatter
+		%TileMap.selected_tile.selected = false
+		%TileMap.selected_tile = null

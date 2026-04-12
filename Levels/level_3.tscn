@@ -1,0 +1,79 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnkteb8asmoc8"]
+
+[ext_resource type="Script" uid="uid://bd2pwfk7365ev" path="res://Levels/level_3.gd" id="1_5lru4"]
+[ext_resource type="PackedScene" uid="uid://c5sa6rmj53x7v" path="res://level_scene.tscn" id="1_cb8d3"]
+
+[node name="Level3" type="Node2D"]
+script = ExtResource("1_5lru4")
+
+[node name="LevelScene" parent="." instance=ExtResource("1_cb8d3")]
+unique_name_in_owner = true
+map_width = 8
+map_height = 7
+left = 20
+top = 20
+resources = Dictionary[int, int]({
+1: 0,
+2: 3,
+3: 0,
+4: 0,
+5: 0,
+6: 0,
+7: 0,
+8: 0
+})
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ObjectiveLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 360.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "I've only managed to prep a few
+water catalysts so far.
+Which is unfortunate, since I'll need
+a solid amount soon enough.
+
+Well, water can turn earth into
+more water, but I don't exactly have
+much earth lying around.
+
+Of course, earth also likes to spread
+when you have enough of it, so
+maybe it can work?
+
+GOAL: Have 10 WATER"
+
+[node name="CompleteLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 360.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "There we go, that should be enough
+water for me to get a cup o' Joe
+going (talk about ground coffee).
+
+As soon as I'm properly caffeinated
+I'll be able to start my proper work."
+metadata/_edit_use_anchors_ = true
+
+[node name="HintLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 5.0
+offset_top = 327.0
+offset_right = 474.0
+offset_bottom = 376.0
+text = "HINT: If water spreads to earth, what does
+anti-water do?"
+metadata/_edit_use_anchors_ = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true
+
+[connection signal="post_step" from="LevelScene" to="." method="_on_level_scene_post_step"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

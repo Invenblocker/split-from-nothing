@@ -1,0 +1,86 @@
+[gd_scene load_steps=6 format=3 uid="uid://dfme587sh0xpl"]
+
+[ext_resource type="Script" uid="uid://b4lr7hfeav5c0" path="res://main_menu.gd" id="1_jix8l"]
+[ext_resource type="Texture2D" uid="uid://bkxs6hw1q2irb" path="res://Graphics/LevelsButton.png" id="2_glbon"]
+[ext_resource type="Texture2D" uid="uid://cajki6m7m767s" path="res://Graphics/CreditsButton.png" id="3_nlkkf"]
+[ext_resource type="Texture2D" uid="uid://4ke6l7ko4t7u" path="res://Graphics/SandboxButton.png" id="4_qe12f"]
+[ext_resource type="Texture2D" uid="uid://dl7i47nxi5r" path="res://Graphics/Icon.png" id="5_glbon"]
+
+[node name="Main Menu" type="Node2D"]
+script = ExtResource("1_jix8l")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0.13586557, 0.12267425, 0.069909096, 1)
+
+[node name="Title" type="Label" parent="CanvasLayer"]
+offset_right = 640.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 55
+text = "SPLIT FROM NOTHING"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelsButton" type="Button" parent="CanvasLayer"]
+offset_left = 196.0
+offset_top = 120.0
+offset_right = 444.0
+offset_bottom = 208.0
+icon = ExtResource("2_glbon")
+
+[node name="CreditsButton" type="Button" parent="CanvasLayer"]
+offset_left = 196.0
+offset_top = 220.0
+offset_right = 444.0
+offset_bottom = 308.0
+icon = ExtResource("3_nlkkf")
+
+[node name="SandboxButton" type="Button" parent="CanvasLayer"]
+offset_left = 196.0
+offset_top = 320.0
+offset_right = 444.0
+offset_bottom = 408.0
+icon = ExtResource("4_qe12f")
+
+[node name="Icon" type="Sprite2D" parent="CanvasLayer"]
+texture_filter = 1
+position = Vector2(101, 174)
+scale = Vector2(4, 4)
+texture = ExtResource("5_glbon")
+
+[node name="CreditsCanvas" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CreditsCanvas"]
+offset_right = 640.0
+offset_bottom = 480.0
+color = Color(0.13586557, 0.12267425, 0.069909096, 1)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CreditsCanvas/ColorRect"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 630.0
+offset_bottom = 470.0
+theme_override_font_sizes/normal_font_size = 24
+bbcode_enabled = true
+text = "Designed and Programmed by Simon Graversen
+
+Art also by Simon Graversen
+
+Made with Godot 4.5
+
+Pyxel Edit used for Sprite Work
+
+Made for Nordic Game Jam 2026
+
+Check out other games from the Jam at [url=https://nordicgamejam.com/games]nordicgamejam.com/games[/url]"
+
+[connection signal="button_down" from="CanvasLayer/LevelsButton" to="." method="_on_levels_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/CreditsButton" to="." method="_on_credits_button_button_down"]
+[connection signal="button_down" from="CanvasLayer/SandboxButton" to="." method="_on_sandbox_button_button_down"]
+[connection signal="meta_clicked" from="CreditsCanvas/ColorRect/RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]
