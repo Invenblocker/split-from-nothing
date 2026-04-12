@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbq4ek4ckbb3i"]
+
+[ext_resource type="Script" uid="uid://3h5rc5jaadjt" path="res://Levels/level_7.gd" id="1_3nw2h"]
+[ext_resource type="PackedScene" uid="uid://c5sa6rmj53x7v" path="res://level_scene.tscn" id="1_bh5jb"]
+
+[node name="Level7" type="Node2D"]
+script = ExtResource("1_3nw2h")
+
+[node name="LevelScene" parent="." instance=ExtResource("1_bh5jb")]
+unique_name_in_owner = true
+map_width = 8
+map_height = 9
+left = 20
+top = 20
+resources = Dictionary[int, int]({
+1: 1,
+2: 1,
+3: 4,
+4: 1,
+5: 0,
+6: 1,
+7: 1,
+8: 2
+})
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ObjectiveLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 360.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "I need to produce some anti-earth.
+But there's anti-water everywhere.
+
+Fire should be able to take care of
+it, but I don't have too many of
+that catalyst.
+
+There's a mixed bag of catalysts in
+the lab, and I really don't feel like
+moving all the way to fetch a better
+set, so these will have to do.
+
+GOAL: Create 7 ANTI-EARTH."
+metadata/_edit_use_anchors_ = true
+
+[node name="CompleteLabel" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+offset_left = 360.0
+offset_right = 640.0
+offset_bottom = 380.0
+text = "That should be enough anti-earth
+for now. Good to be done.
+
+I have many more experiments I
+want to run, but I seem to be
+running out of time.
+
+But I should have requisite reagents
+to set up something freestyle
+in my sandbox laboratory."
+metadata/_edit_use_anchors_ = true
+
+[connection signal="level_finished" from="." to="LevelScene" method="level_end"]
+[connection signal="post_step" from="LevelScene" to="." method="_on_level_scene_post_step"]
