@@ -35,17 +35,18 @@ offset_left = 354.0
 offset_right = 494.0
 offset_bottom = 380.0
 text = "I should not have
-left the anti-fire
-alone! This is bad.
+left the fire and
+anti-fire alone!
+This is bad.
 
-Just used up all
+I Just used up all
 my water, and
-have no catalysts
-on hand. I'll have
-to use these air
-catalysts instead.
+all I have on hand
+is a few air
+catalysts.
 
 GOAL: Remove all
+FIRE and ANTI
 FIRE elements."
 metadata/_edit_use_anchors_ = true
 
